@@ -1,0 +1,149 @@
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+    background-size: cover;
+    background-image: url(./img/bg.jpg);
+    font-size: 1.5rem;
+}
+
+body {
+    font-family: Poppins, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 35%;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+.content {
+    flex: 1;
+    padding: 20px;
+}
+.logo {
+    margin-bottom: 20px;
+}
+
+button a{
+    text-decoration: none;
+    color: white;
+}
+
+.report-button {
+    width: 90%;
+    background-color: black;
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.logout-button {
+    width: 90%;
+    background-color: rgb(172, 172, 172);
+    color: rgb(30, 30, 30);
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.button-group {
+    margin-bottom: 20px;
+}
+.button {
+    margin-top:10px ;
+    padding: 16px 27px;
+    border: none;
+    width: 90%;
+    cursor: pointer;
+}
+
+.button:hover{
+    background-color: #ccc;
+}
+.bottom-div {
+    width: 23%;
+    margin-top: auto;
+    position: absolute;
+    bottom: 0;
+}
+.user-info {
+    font-size: small;
+    margin-top: 20px;
+}
+
+.smallMenu{
+    color: #8b98a8;
+    font-size: 15px;
+}
+
+h2{
+    margin-bottom: 2px;
+    margin-top: 5px;
+}
+
+h3{
+    margin-top: 2px;
+}
+
+.chat-container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+}
+
+.upvote, .downvote {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.item {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.location {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.enquiry {
+    font-size: 14px;
+    color: #333;
+}
+
+.likes {
+    font-size: 14px;
+    color: #888;
+}
+
+span{
+    margin-left: 10px;
+}
+
+.chat-container{
+    padding-left: 50px;
+}

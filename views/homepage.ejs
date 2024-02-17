@@ -1,56 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bommers</title>
-  <link rel="stylesheet" href="/homepage.css">
-</head>
-
-<body>
-  <header>
-    <nav class="nav">
-      <a href="#" class="nav-brand">Boomers</a>
-      <ul class="nav-links">
-        <li><a href="/report">Anonymous</a></li>
-        <li><a href="/login">Login</a></li>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="homepage.css" />
+    <title>ReportRepo</title>
+  </head>
+  <body>
+    <nav>
+      <div class="nav__logo"><a href="#">ReportRepo</a></div>
+      <ul class="nav__links">
+        <li class="link"><a href="/report">Anonymous</a></li>
+        <li class="link"><a href="/login">Login</a></li>
       </ul>
     </nav>
-  </header>
+    <section class="container">
+      <div class="content__container">
+        <h1 class="titletext">
+			Anonymously report corruption
+        </h1>
+        <p class="paratext">
+			ReportRepo: Your confidential ally in combating corruption. With secure, anonymous reporting and advanced AI verification, we empower whistleblowers and promote transparency.
+        </p>
 
-  <main>
-    <section class="hero">
-      <div class="hero-text">
-        <h1>IMAGINE A PLACE...</h1>
-        <p>...where you can belong to a school club, a gaming group, or a worldwide art community.
-          Where just you and a handful of friends can spend time together. A place that makes it easy
-          to talk every day and hang out more often.</p>
-        <div>
-            <form action="/login" method="post">
-                <input type="email" name="email" id="email" placeholder="Enter Your Email">
-                <button class="call-to-action">Log In</button>
-            </form>
-        </div>
+		<button>Report</button>
+
+
+      </div>
+      <div class="image__container">
+        <img class="wiggle-on-hover" src="./img/Character.png" alt="" srcset="">
       </div>
     </section>
+	<section>
+		<h1 class="features">Features</h1>
+		<div class="container">
+			<div class="card">
+			  <img src="./img/f1.png" alt="Image">
+			  <div class="content">
+				<div class="title">Anonymous reporting</div>
+				<div class="description">Our platform ensures the protection of whistleblowers by allowing them to submit reports anonymously, fostering a safe environment for disclosing instances of corruption without fear of reprisal.</div>
+			  </div>
+			</div>
+		  
+			<div class="card">
+			  <img src="./img/f2.png" alt="Image">
+			  <div class="content">
+				<div class="title">AI for Verification</div>
+				<div class="description">Leveraging advanced artificial intelligence algorithms, we employ robust verification mechanisms to authenticate and validate reported incidents, ensuring the accuracy and reliability of the information received.</div>
+			  </div>
+			</div>
+		  
+			<div class="card">
+			  <img src="./img/f3.png" alt="Image">
+			  <div class="content">
+				<div class="title">Dashboard</div>
+				<div class="description">Our intuitive dashboard provides stakeholders with a comprehensive overview of reported cases, enabling efficient monitoring, analysis, and management of ongoing investigations, facilitating informed decision-making and strategic planning.</div>
+			  </div>
+			</div>
+		  </div>
 
-    <section class="features">
-      <h2>What Boomers is For</h2>
-      <div class="feature-cards">
-        <div class="feature-card">
-          <h3>GEOTAG</h3>
-          <p>Find your people and build something amazing together.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Friends</h3>
-          <p>Stay close with the people who matter most.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Chat</h3>
-          <p>Talk, text, and video chat, all in one place.</p>
-        </div>
-      </div>
-    </section>
-
-   
+		  <div class="container">
+			<div class="card">
+			  <img src="./img/f4.png" alt="Image">
+			  <div class="content">
+				<div class="title">Geotag</div>
+				<div class="description">By incorporating geotagging technology, our platform enables precise location tracking of reported incidents, facilitating targeted responses and interventions in specific geographical areas, enhancing the effectiveness of anti-corruption efforts.</div>
+			  </div>
+			</div>
+		  
+			<div class="card">
+			  <img src="./img/f5.png" alt="Image">
+			  <div class="content">
+				<div class="title">Evidence Upload Capability</div>
+				<div class="description">Whistleblowers can securely upload supporting evidence, such as documents, images, and videos, to substantiate their reports, enhancing the credibility and evidential value of the information provided, and facilitating thorough investigations.</div>
+			  </div>
+			</div>
+		  
+			<div class="card">
+			  <img src="./img/f6.png" alt="Image">
+			  <div class="content">
+				<div class="title">User Registration and Authentication</div>
+				<div class="description">Through secure user registration and authentication processes, our platform ensures the integrity and confidentiality of user accounts, granting authorized access to functionalities and data while safeguarding against unauthorized access and misuse.</div>
+			  </div>
+			</div>
+		  </div>
+	</section>
+  </body>
+</html>

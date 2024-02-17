@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const bodyParser = require('body-parser');
 const http = require('http');
 const session = require('express-session');
@@ -7,6 +6,13 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./database');
 const Session = require('./session');
 const dotenv = require('dotenv');
+const OpenAI = require("openai");
+const multer  = require('multer');
+const exifParser = require('exif-parser');
+const fs = require('fs');
+const path = require('path');
+
+
 dotenv.config();
 
 (async () => {
@@ -14,8 +20,8 @@ dotenv.config();
 })();
 
 
+
 const app = express();
-const server = http.createServer(app);
 
 
 app.use(session({
@@ -38,12 +44,20 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/login',(req,res)=>{
-    res.render("email")
+  res.render("email")
 })
 
 app.get('/',(req,res)=>{
     res.render("homepage")
 })
+
+app.get('/geotag/add',(req,res)=>{
+    res.render("addgeotag")
+})
+app.get('/geotag/extract',(req,res)=>{
+    res.render("extractgeotag.ejs")
+})
+
 
 app.get('/user/:email', (req, res) => {
   const email = req.params.email;
@@ -57,35 +71,43 @@ app.get('/user/:email', (req, res) => {
 
 
 
-app.post('/login/otp', async (req, res) => {
-    const email = req.body.email;
-    await fetch(`https://lbqn3amkemogpqcxzqnbvmlqsm0knjff.lambda-url.ap-south-1.on.aws/?email=${email}`)
-    .then(response => response.text()) 
-    .then(data => {
-      console.log(data);
-    })
-    await res.render('otp', {email:email})
-    
+
+app.post('/extract', async (req, res) => {
+    const imageUrl = req.body.imageUrl;
+    const tempPath = path.join(__dirname, 'temp.jpg');
+
+
+    // Download the image
+    const axios = require('axios');
+    const writer = fs.createWriteStream(tempPath);
+    const response = await axios({
+        url: imageUrl,
+        method: 'GET',
+        responseType: 'stream'
+    });
+    response.data.pipe(writer);
+
+    writer.on('finish', async () => {
+        try {
+            const data = await exif.parse(tempPath);
+            const gps = data.gps;
+
+            if (gps) {
+                const latitude = gps.GPSLatitude;
+                const longitude = gps.GPSLongitude;
+                res.send(`Latitude: ${latitude}, Longitude: ${longitude}`);
+            } else {
+                res.send('No GPS coordinates found in the image.');
+            }
+        } catch (error) {
+            console.error('Error extracting GPS coordinates:', error);
+            res.send('Error extracting GPS coordinates. Please try again.');
+        } finally {
+            // Delete the temporary file
+            fs.unlinkSync(tempPath);
+        }
+    });
 });
-
-app.post('/enter', async(req,res)=>{
-    const email = req.body.email;
-    const pass = req.body.pass;
-
-    await fetch(`https://gaqjyqhexaqsegidaoxm3dwx4i0blxwx.lambda-url.ap-south-1.on.aws/?email=${email}&otp=${pass}`)
-    .then(response=>response.json())
-    .then(data => {
-        const message = data.message;
-        console.log(message)
-        if (message == 'OTP verified successfully!') {
-          req.session.email = email;
-          res.redirect(`/user/${email}`); 
-          } else {
-          res.redirect('/login');
-          }
-      
-    })
-})
 
 
 // Reporting SEction
@@ -121,4 +143,72 @@ app.post('/getMessage',(req,res)=>{
   setTimeout(()=>{res.redirect('/')},5000)
 })
 
-app.listen(3000, () => console.log('Server listening on port 3000'));
+function imgRec(imageLink, input){
+// Replace 'your-api-key' with your actual OpenAI API key
+const apiKey = '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';
+
+const openai = new OpenAI({"apiKey": apiKey});
+
+  console.log("is this image related to "+input+"? return true or false")
+  async function main() {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4-vision-preview",
+      messages: [
+        {
+          role: "user",
+          content: [
+            { type: "text", text: "if you're 30% confident that this image is related to : "+input+"? return true or false" },
+            {
+              type: "image_url",
+              image_url: {
+                "url": imageLink,
+              },
+            },
+          ],
+        },
+      ],
+    });
+    console.log(response.choices[0]);
+  }
+  main();
+}
+
+
+
+// Use body-parser middleware to parse incoming JSON requests
+app.use(bodyParser.json());
+
+// Define a route to handle POST requests with two inputs
+app.post('/processInput', (req, res) => {
+  // Extract input data from the request body
+  const input1 = req.body.enquiry_name;
+  const input2 = req.body.enquiry;
+  const input3 = req.body.imageLink;
+
+  // Check if both inputs are present
+  if (input1 && input2 && input3) {
+    // Respond with a success message and the received input data
+    res.json({ success: true, message: 'Inputs received successfully', input1, input2, input3 });
+    
+    // Log the inputs to the console
+    console.log(`
+      ***************8
+      Input 1: ${input1}
+      Input 2: ${input2}
+      Input 3: ${input3}
+    `);
+    imgRec(input3, input1);
+  } else {
+    // Respond with an error message if any input is missing
+    res.status(400).json({ success: false, message: 'Both inputs are required' });
+  }
+});
+
+app.get('/reportnew', (req, res) => {
+  res.render("create_report")
+
+});
+
+app.listen(3000, () => {
+  console.log(`Server is running on port ${3000}`);
+});

@@ -1,45 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chats</title>
-<link rel="stylesheet" href="/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user.css">
+    <title>User Dashboard</title>
 </head>
 <body>
-<div class="container">
-  <div class="users">
-    <h2>Users</h2>
-    <ul id="userList">
-      <!-- User list will be populated dynamically -->
-    </ul>
-  </div>
-  <div class="chat">
-    <div class="chat-header">
-      <h2>Welcome <%=email%></h2>
-    </div>
-    <div class="chat-messages" id="chatMessages">
-      <!-- Chat messages will be displayed here -->
-    </div>
-    <div class="chat-input">
-      <textarea id="messageInput" placeholder="Type your message..."></textarea>
-      <button onclick="sendMessage()">Send</button>
-    </div>
-  </div>
-</div>
+  <div class="container">
+    <div class="sidebar">
+        <div class="logo">
+            <h3>Boomers</h1>
+        </div>
+        <button class="report-button"><a href="/reportnew">+ New Report</a></button>
+        <div class="smallMenu">Menu:</div>
+
+        <div class="button-group">
+            <button class="button">Server 1</button>
+            <button class="button">Server 2</button>
+            <button class="button">Server 3</button>
+        </div>
+        <div class="bottom-div">
+          <hr>
+          <div class="smallMenu">Profile:</div>
+          <div class="user-info">
+            <h2>Email Id:</h2>
+            <h3>dxdelvin@gmail.com</h3>
+          </div>
+
+            <a href="/login"><button class="logout-button">Logout</button></a>
+        </div></div>
+        <div class="chat-container">
+          <div id="dataContainer"></div>
+      </div>
+      <script>
+         const jsonData = [
+        { title: "Random Title 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: 'path/toimg1' },
+        { title: "Random Title 2", enquiry: "Random Text 2", location: "Mumbai", likes: 10, dislikes: 2, img: 'path/toimg2' },
+    ];
+
+    jsonData.sort((a, b) => b.likes - a.likes);
+
+    const container = document.getElementById('dataContainer');
+    jsonData.forEach(item => {
+        const div = document.createElement('div');
+        div.classList.add('item');
+
+        const locationPara = document.createElement('span');
+        locationPara.classList.add('location');
+        locationPara.textContent = item.location;
+        div.appendChild(locationPara);
+
+        const likesPara = document.createElement('span');
+        likesPara.classList.add('likes');
+        likesPara.textContent = `Likes: ${item.likes}`;
+        div.appendChild(likesPara);
+
+        const titlePara = document.createElement('p');
+        titlePara.textContent = item.title;
+        div.appendChild(titlePara);
 
 
+        const enquiryPara = document.createElement('p');
+        enquiryPara.textContent = item.enquiry;
+        div.appendChild(enquiryPara);
 
-
-
-
-
-
-
-
-<script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io();
-  </script>
+        container.appendChild(div);
+    });
+      </script>
 </body>
 </html>

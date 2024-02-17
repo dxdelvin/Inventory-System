@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Express Request Sender</title>
+</head>
+
+<body>
+
+  <h1>Express Request Sender</h1>
+
+  <form id="inputForm">
+    
+    <label for="enquiry_name">Enter Enquiry name:</label>
+    <input type="text" id="enquiry_name" name="enquiry_name" required>
+
+    <label for="enquiry">Enter Enquiry:</label>
+    <input type="text" id="enquiry" name="enquiry" required>
+
+    <label for="image">Choose Image:</label>
+    <input type="file" id="image" name="image" accept="image/*" required>
+
+    <button type="submit" onclick="sendRequest(event)">Send Request</button>
+  </form>
+
+  <div id="response"></div>
+
+  <script>
+    async function sendRequest(event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+
+      const enquiry_name = document.getElementById('enquiry_name').value;
+      const enquiry = document.getElementById('enquiry').value;
+      const imageInput = document.getElementById('image');
+      const responseDiv = document.getElementById('response');
+
+      // Check if an image is selected
+      if (imageInput.files.length > 0) {
+        const imageFile = imageInput.files[0];
+        const imageBase64 = await convertImageToBase64(imageFile);
+
+        try {
+          sendImage(imageBase64)
+
+
+          // Handle the response if needed
+        } catch (error) {
+          console.error('Error sending request:', error);
+          responseDiv.innerHTML = '<p>Error sending request</p>';
+        }
+      } else {
+        responseDiv.innerHTML = '<p>Please select an image</p>';
+      }
+    }
+
+    function convertImageToBase64(imageFile) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          resolve(reader.result.split(',')[1]); // Extract base64 data from result
+        };
+
+        reader.onerror = (error) => {
+          reject(error);
+        };
+
+        reader.readAsDataURL(imageFile);
+      });
+    }
+  
+        // Function to send the POST request with compressed image data
+        async function sendImage(imageBase64) {
+          
+      const enquiry_name = document.getElementById('enquiry_name').value;
+      const enquiry = document.getElementById('enquiry').value;
+      const imageInput = document.getElementById('image');
+      const responseDiv = document.getElementById('response');
+      console.log(enquiry_name)
+          const forWhichEle = "hiii"
+          const fileName= "fileName"
+        const url = 'https://kgo4zjwpof.execute-api.ap-south-1.amazonaws.com/stage1/'; // Replace with your AWS Lambda function endpoint
+        const options = {
+          method: 'POST',
+          body: JSON.stringify({ imageBase64, "fileName": "fileName", "forWhichEle": forWhichEle }),
+        };
+
+        try {
+          let response = await fetch(url, options);
+          if (!response.ok) {
+            throw new Error(`Request failed with status ${response.status}`);
+          }
+          const result = await response.text();
+          let imageLink = `https://firebasestorage.googleapis.com/v0/b/loyalty-422e0.appspot.com/o/${forWhichEle}%2F${fileName}?alt=media`
+          localStorage.setItem(forWhichEle+"_url" , `https://firebasestorage.googleapis.com/v0/b/loyalty-422e0.appspot.com/o/${forWhichEle}%2F${fileName}?alt=media` )
+          console.log(result); // Display the received base64 image text
+
+
+          response = await fetch('http://192.168.1.121:3000/processInput', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ enquiry_name,  enquiry, imageLink }),
+          });
+
+          const data = await response.json();
+
+        } catch (error) {
+          console.error(error);
+        }
+      }
+  </script>
+
+</body>
+
+</html>

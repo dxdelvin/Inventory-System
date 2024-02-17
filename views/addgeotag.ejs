@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenStreetMap Geotag Feature</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>OpenStreetMap Geotag Feature</h1>
+    <div id="map"></div>
+    <p id="coordinates">Click on the map to select a location.</p>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initialize the map
+            var map = L.map('map').setView([19.0760, 72.8777], 13); // Set the initial center of the map to Mumbai and zoom level
+
+            // Add the OpenStreetMap tiles layer to the map
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Add a marker that can be dragged to select a location
+            var marker = L.marker([19.0760, 72.8777], { draggable: true }).addTo(map);
+
+            // Variable to store the coordinates
+            var selectedCoordinates = [19.0760, 72.8777];
+
+            // Function to update marker position and default coordinates
+            function updateMarkerPosition(latLng) {
+                marker.setLatLng(latLng);
+                map.panTo(latLng);
+                document.getElementById('coordinates').textContent = 'Selected Coordinates: ' + latLng.lat + ', ' + latLng.lng;
+                selectedCoordinates = [latLng.lat, latLng.lng]; // Update the selected coordinates variable
+            }
+
+            // Event listener for when the marker is dragged to update its position
+            marker.on('dragend', function(event) {
+                var markerLatLng = marker.getLatLng();
+                updateMarkerPosition(markerLatLng);
+                // You can use the markerLatLng coordinates as needed, for example, to save them to a database.
+            });
+
+            // Event listener for when the map is clicked to display coordinates and update marker position
+            map.on('click', function(event) {
+                var clickedLatLng = event.latlng;
+                updateMarkerPosition(clickedLatLng);
+            });
+
+            // Example of how to access the selected coordinates elsewhere in your code
+            console.log(selectedCoordinates);
+        });
+    </script>
+</body>
+</html>

@@ -87,4 +87,10 @@ button:hover {
 }
 
 
-
+map {
+    width: 600px; /* Adjust map width */
+    height: 400px; /* Adjust map height */
+    background-color: #f0f0f0; /* Map background color */
+    border: 1px solid #ccc; /* Map border */
+    margin-bottom: 20px;
+  }
