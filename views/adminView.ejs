@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin View</title>
+    <link rel="stylesheet" href="/report.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Admin View</h1>
+        <% if (message && message.length > 0) { %>
+            
+                <% message.forEach(function(item) { %>
+                    <div class="message-item">
+                        <p><strong>Message: </strong></p><span> </span>
+                        <p><%= item %></p> 
+                        <input type="checkbox" id="checkbox"> 
+                    </div>
+                <% }); %>
+            
+        <% } else { %>
+            <p>No message available.</p>
+        <% } %>
+        
+</body>
+</html>

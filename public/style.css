@@ -1,0 +1,110 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+    display: grid;
+    grid-template-columns: 37% 1fr;
+    min-height: 100vh;
+    background-size: cover;
+    background-image: url(./img/bg.jpg);    
+}
+
+.team{
+    display: flex;
+    align-items: flex-start;
+    margin-left: 40px;
+    justify-content: center;
+    height: 60vh;
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    flex-direction: column;
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.container p {
+    margin-bottom: 5px;
+    display: flex;
+}
+
+#loginimg{
+    height: auto;
+    display: block;
+    margin: 0 auto -40px;
+    width: 60%;
+}
+.labell{
+    float: left;
+    padding: 9px;
+    background: white;
+    border-radius: 2px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #449d44;
+}
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+@media only screen and (max-width: 600px) {
+    body {
+        grid-template-columns: 100% 1fr;
+        padding: 20px;
+    }
+  }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chats</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="container">
+  <div class="users">
+    <h2>Users</h2>
+    <ul id="userList">
+      <!-- User list will be populated dynamically -->
+    </ul>
+  </div>
+  <div class="chat">
+    <div class="chat-header">
+      <h2>Welcome <%=email%></h2>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <!-- Chat messages will be displayed here -->
+    </div>
+    <div class="chat-input">
+      <textarea id="messageInput" placeholder="Type your message..."></textarea>
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+  </script>
+</body>
+</html>
