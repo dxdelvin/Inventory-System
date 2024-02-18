@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./Character.png" type="image/x-icon">
+
     <link rel="stylesheet" href="/user.css">
     <title>User Dashboard</title>
 </head>
@@ -12,61 +14,114 @@
         <div class="logo">
             <h3>Boomers</h1>
         </div>
-        <button class="report-button"><a href="/reportnew">+ New Report</a></button>
+        <div><button class="report-button"><a href="/reportnew">+ New Report</a></button>
+          <button class="button" onclick="filterData('My Reports')">My Reports</button></div>
+
         <div class="smallMenu">Menu:</div>
 
         <div class="button-group">
-            <button class="button">Server 1</button>
-            <button class="button">Server 2</button>
-            <button class="button">Server 3</button>
+            <button class="button" onclick="filterData('bribe')">Bribe</button>
+            <button class="button" onclick="filterData('corruption')">Corruption</button>
+            <button class="button" onclick="filterData('money_laundering')">Laundering</button>
+            <button class="button" onclick="filterData('political')">Political</button>
+            <button class="button" onclick="filterData('other')">Other</button>
         </div>
         <div class="bottom-div">
           <hr>
           <div class="smallMenu">Profile:</div>
           <div class="user-info">
             <h2>Email Id:</h2>
-            <h3>dxdelvin@gmail.com</h3>
+            <h3><%=email%></h3>
           </div>
 
-            <a href="/login"><button class="logout-button">Logout</button></a>
+            <a href="/logout"><button class="logout-button">Logout</button></a>
         </div></div>
         <div class="chat-container">
           <div id="dataContainer"></div>
       </div>
       <script>
-         const jsonData = [
-        { title: "Random Title 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: 'path/toimg1' },
-        { title: "Random Title 2", enquiry: "Random Text 2", location: "Mumbai", likes: 10, dislikes: 2, img: 'path/toimg2' },
-    ];
-
-    jsonData.sort((a, b) => b.likes - a.likes);
-
-    const container = document.getElementById('dataContainer');
-    jsonData.forEach(item => {
-        const div = document.createElement('div');
-        div.classList.add('item');
-
-        const locationPara = document.createElement('span');
-        locationPara.classList.add('location');
-        locationPara.textContent = item.location;
-        div.appendChild(locationPara);
-
-        const likesPara = document.createElement('span');
-        likesPara.classList.add('likes');
-        likesPara.textContent = `Likes: ${item.likes}`;
-        div.appendChild(likesPara);
-
-        const titlePara = document.createElement('p');
-        titlePara.textContent = item.title;
-        div.appendChild(titlePara);
+        // const jsonData = [
+        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
+        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
+        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
+        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
+        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
+        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
+        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
+        //     { report_category: "corruption", enquiry_name: "Random enquiry_name 2", enquiry: "Random Text 2", location: "Mumbai", likes: 10, dislikes: 2, img: './img/f3.png' },
+        //     // Add more data items with different report_categorys
+        // ];
 
 
-        const enquiryPara = document.createElement('p');
-        enquiryPara.textContent = item.enquiry;
-        div.appendChild(enquiryPara);
+  let jsonData= []
+  async function fetchData() {
+    try {
+      const response = await fetch('http://192.168.1.121:3000/getRequests', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-        container.appendChild(div);
-    });
+      if (response.ok) {
+        jsonData = await response.json();
+        // updateTable(requestData);
+        console.log(jsonData)
+      } else {
+        console.error('Server error:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  fetchData()
+
+
+
+        function filterData(report_category) {
+            const container = document.getElementById('dataContainer');
+            container.innerHTML = ''; // Clear previous data
+            
+            const filteredData = jsonData.filter(item => item.report_category === report_category);
+            displayData(filteredData);
+        }
+
+        function displayData(data) {
+            const container = document.getElementById('dataContainer');
+
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('item');
+
+                const locationPara = document.createElement('span');
+                locationPara.classList.add('location');
+                locationPara.textContent = item.location;
+                div.appendChild(locationPara);
+
+                const likesPara = document.createElement('span');
+                likesPara.classList.add('likes');
+                likesPara.textContent = `Likes: ${item.likes}`;
+                div.appendChild(likesPara);
+
+                const enquiry_namePara = document.createElement('h5');
+                enquiry_namePara.textContent = item.enquiry_name;
+                div.appendChild(enquiry_namePara);
+
+                const enquiryPara = document.createElement('p');
+                enquiryPara.textContent = item.enquiry;
+                div.appendChild(enquiryPara);
+
+                const img = document.createElement('img');
+                img.src = item.image_link;
+                div.appendChild(img);
+
+                container.appendChild(div);
+            });
+        }
+
+        
+
       </script>
 </body>
 </html>

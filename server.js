@@ -11,6 +11,10 @@ const multer  = require('multer');
 const exifParser = require('exif-parser');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
+const exif = require('exif');
+const mongoose = require('mongoose');
+const crypto = require('crypto');
 
 
 dotenv.config();
@@ -32,9 +36,6 @@ app.use(session({
     db: sequelize,
     tableName: 'sessions', 
   }),
-  cookie: {
-    maxAge: 86400000 // 1 day in secound 
-  }
 }));  
 
 
@@ -44,8 +45,24 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/login',(req,res)=>{
-  res.render("email")
+  if (req.session.email) {
+    email = req.session.email
+    res.redirect(`user/${email}`)
+} else {
+    res.render("email")
+}
 })
+
+app.post('/login/otp', async (req, res) => {
+  const email = req.body.email;
+  await fetch(`https://lbqn3amkemogpqcxzqnbvmlqsm0knjff.lambda-url.ap-south-1.on.aws/?email=${email}`)
+  .then(response => response.text()) 
+  .then(data => {
+    console.log(data);
+  })
+  await res.render('otp', {email:email})
+  
+});
 
 app.get('/',(req,res)=>{
     res.render("homepage")
@@ -59,6 +76,9 @@ app.get('/geotag/extract',(req,res)=>{
 })
 
 
+
+
+
 app.get('/user/:email', (req, res) => {
   const email = req.params.email;
   if (email === req.session.email) {
@@ -68,7 +88,39 @@ app.get('/user/:email', (req, res) => {
   }
 });
 
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+        console.error('Error destroying session:', err);
+    }
+    res.redirect('/login');
+});
+});
 
+
+
+app.post('/enter', async(req,res)=>{
+  const email = req.body.email;
+  const pass = req.body.pass;
+
+  await fetch(`https://gaqjyqhexaqsegidaoxm3dwx4i0blxwx.lambda-url.ap-south-1.on.aws/?email=${email}&otp=${pass}`)
+  .then(response=>response.json())
+  .then(data => {
+      const message = data.message;
+      console.log(message)
+      if (message == 'OTP verified successfully!') {
+        req.session.email = email;
+        res.redirect(`/user/${email}`); 
+        } else {
+        res.redirect('/');
+        }
+    
+  })
+})
+
+app.get('/myreports', (req, res) =>{
+  res.render('myreports')
+});
 
 
 
@@ -145,7 +197,7 @@ app.post('/getMessage',(req,res)=>{
 
 function imgRec(imageLink, input){
 // Replace 'your-api-key' with your actual OpenAI API key
-const apiKey = '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';
+const apiKey = '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';
 
 const openai = new OpenAI({"apiKey": apiKey});
 
@@ -157,11 +209,11 @@ const openai = new OpenAI({"apiKey": apiKey});
         {
           role: "user",
           content: [
-            { type: "text", text: "if you're 30% confident that this image is related to : "+input+"? return true or false" },
+            { type: "text", text: "whats in this image?" },
             {
               type: "image_url",
               image_url: {
-                "url": imageLink,
+                "url": "https://firebasestorage.googleapis.com/v0/b/loyalty-422e0.appspot.com/o/VbbT4eZfLd%2Fd88wGhys0ii?alt=media",
               },
             },
           ],
@@ -173,8 +225,166 @@ const openai = new OpenAI({"apiKey": apiKey});
   main();
 }
 
+app.use(bodyParser.json());
+
+app.post('/imageDetails', (req, res) => {
+  // Get the base64-encoded image data from the request body
+  const imageData = req.body.imageLink;
+  
+  getImageBase64(imageData)
+  .then(base64 => {
+      // Decode base64 data to a Buffer
+    const imageBuffer = Buffer.from(base64, 'base64');
+
+    exif(imageBuffer, (error, metadata) => {
+        if (error) {
+            console.error('Error reading Exif data:', error);
+            res.status(500).json({ error: 'Error reading Exif data' });
+        } else {
+            res.json({ metadata });
+        }
+    });
+    // console.log('Base64 representation of the image:', base64);
+    // You can use the base64 data as needed
+  })
+  .catch(err => {
+    // Handle errors
+    console.error(err);
+  });
 
 
+
+});
+
+
+async function getImageBase64(imageUrl) {
+  try {
+    // Fetch image using Axios
+    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+
+    // Convert the image buffer to base64
+    const base64 = Buffer.from(response.data, 'binary').toString('base64');
+
+    return base64;
+  } catch (error) {
+    console.error('Error fetching or converting the image:', error.message);
+    throw error;
+  }
+}
+
+
+function encrypt(text, shift) {
+  let result = '';
+
+  for (let i = 0; i < text.length; i++) {
+      let charCode = text.charCodeAt(i);
+
+      if (charCode >= 65 && charCode <= 90) { // Uppercase letters
+          result += String.fromCharCode((charCode - 65 + shift) % 26 + 65);
+      } else if (charCode >= 97 && charCode <= 122) { // Lowercase letters
+          result += String.fromCharCode((charCode - 97 + shift) % 26 + 97);
+      } else {
+          result += text[i]; // Non-alphabetic characters
+      }
+  }
+
+  return result;
+}
+
+const shiftAmount = 3;
+
+
+// Function to decrypt text using Caesar cipher
+function decrypt(ciphertext, shift) {
+  return encrypt(ciphertext, 26 - shift); // Decryption is the same as encryption with the opposite shift
+}
+
+
+// console.log(unhashText("6f995c4ff2eaec8ff59935c607b033ba87ae10c9ed611184f60282af12bbcbee"))
+
+// Replace the connection string with your own MongoDB Atlas connection string
+const uri = "mongodb+srv://akshat:9UNe7MvwlI5aOVJP@cluster0.d4digua.mongodb.net/financeapp?retryWrites=true&w=majority";
+
+// Connect to MongoDB Atlas
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+
+// Define a Mongoose schema for your "requests" collection
+const requestSchema = new mongoose.Schema({
+  enquiry_name: String,
+  email: { type: String, default: "anonynomus@anony.com" },
+  enquiry: String,
+  image_link: String,
+  report_category: String,
+  likes: { type: Number, default: 0 },
+  users_liked: { type: [String], default: [] }
+});
+
+// Create a Mongoose model based on the schema
+const Request = mongoose.model('requests', requestSchema);
+
+
+app.use(express.json());
+
+app.post('/saveDataToDb', async (req, res) => {
+  try {
+    // Get data from the request body
+    const { enquiry_name, enquiry, image_link, report_category } = req.body;
+    let  email = req.session.email
+    email = encrypt(email, shiftAmount)
+    console.log(email)
+
+    let newRequest = new Request({
+      enquiry_name,
+      enquiry,
+      image_link,
+      report_category
+    });
+
+    // Create a new document and save it to the "requests" collection
+    if(email){
+      newRequest.email = email
+    }
+
+    // Add usernames to the users_liked array
+    // newRequest.users_liked.push("username1", "username2");
+
+    // Save the document to the database
+    const savedRequest = await newRequest.save();
+
+    console.log('Request saved successfully:', savedRequest);
+    res.status(201).json({ message: 'Request saved successfully', data: savedRequest });
+  } catch (error) {
+    console.error('Error saving request:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+app.get('/getRequests', async (req, res) => {
+  try {
+    // Retrieve all documents from the "requests" collection
+    const requests = await Request.find();
+
+    // Unhash (decode) email addresses in each request
+    const decodedRequests = requests.map(request => {
+      return {
+        ...request.toObject(),
+        // Assuming 'email' is the property containing the hashed email address
+        email: decrypt(request.email, shiftAmount),
+      };
+    });
+
+    console.log('Requests retrieved successfully:', decodedRequests);
+    res.status(200).json(decodedRequests);
+  } catch (error) {
+    console.error('Error retrieving requests:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+  // -------------------------
 // Use body-parser middleware to parse incoming JSON requests
 app.use(bodyParser.json());
 
@@ -212,3 +422,4 @@ app.get('/reportnew', (req, res) => {
 app.listen(3000, () => {
   console.log(`Server is running on port ${3000}`);
 });
+

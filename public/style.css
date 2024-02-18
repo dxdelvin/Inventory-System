@@ -1,37 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
 body {
-    font-family: sans-serif;
+    font-family: "Poppins",sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f2f2f2;
-    display: grid;
-    grid-template-columns: 37% 1fr;
-    min-height: 100vh;
+    background-color: #5c4cec;
+     min-height: 100vh;
     background-size: cover;
-    background-image: url(./img/bg.jpg);    
-}
-
-.team{
     display: flex;
-    align-items: flex-start;
-    margin-left: 40px;
     justify-content: center;
-    height: 60vh;
-    font-size: 2rem;
-    font-weight: 900;
-    color: white;
-    flex-direction: column;
+    align-items:center;
 }
 
 
 .container {
-    display: flex;
-    justify-content: center;
     flex-direction: column;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 30px;
     text-align: center;
+    width:42%;
+    height: 50%;
 }
 
 h1 {
@@ -103,8 +93,8 @@ a:hover {
 
 
 @media only screen and (max-width: 600px) {
-    body {
-        grid-template-columns: 100% 1fr;
-        padding: 20px;
+    .container {
+        width: 80%;
+        
     }
   }
