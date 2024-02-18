@@ -6,7 +6,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./database');
 const Session = require('./session');
 const dotenv = require('dotenv');
-const OpenAI = require("openai");
+const {OpenAI} = require("openai");
 const multer  = require('multer');
 const exifParser = require('exif-parser');
 const fs = require('fs');
@@ -195,35 +195,71 @@ app.post('/getMessage',(req,res)=>{
   setTimeout(()=>{res.redirect('/')},5000)
 })
 
+
+
+
 function imgRec(imageLink, input){
-// Replace 'your-api-key' with your actual OpenAI API key
-const apiKey = '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';
-
-const openai = new OpenAI({"apiKey": apiKey});
-
-  console.log("is this image related to "+input+"? return true or false")
-  async function main() {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4-vision-preview",
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "text", text: "whats in this image?" },
-            {
-              type: "image_url",
-              image_url: {
-                "url": "https://firebasestorage.googleapis.com/v0/b/loyalty-422e0.appspot.com/o/VbbT4eZfLd%2Fd88wGhys0ii?alt=media",
+  // Replace 'your-api-key' with your actual OpenAI API key
+  const apiKey = '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';
+  
+  const openai = new OpenAI({"apiKey": apiKey});
+  
+    console.log("is this image related to "+input+"? return true or false")
+    async function main() {
+      const response = await openai.chat.completions.create({
+        model: "gpt-4-vision-preview",
+        messages: [
+          {
+            role: "user",
+            content: [
+              { type: "text", text: "problems in this image?" },
+              {
+                type: "image_url",
+                image_url: {
+                  "url": "https://firebasestorage.googleapis.com/v0/b/loyalty-422e0.appspot.com/o/VbbT4eZfLd%2Fd88wGhys0ii?alt=media",
+                },
               },
-            },
-          ],
-        },
-      ],
-    });
-    console.log(response.choices[0]);
+            ],
+          },
+        ],
+      });
+      let descByGpt = response.choices[0].message.content
+      console.log(descByGpt)
+      
+
+      async function generateCompletion(prompt) {
+
+        try {
+            // Generate completion
+            const completion = await openai.chat.completions.create ({
+                model: "gpt-3.5-turbo",
+                messages: [{"role": "system", "content": prompt}],
+            });
+    
+            // Return the generated completion
+            return completion.choices[0].message.content;
+        } catch (error) {
+            console.error('Error generating completion:', error);
+            return null;
+        }
+    }
+          // Example usage:
+    (async (res,req) => {
+      const prompt = "compare two prompts and check if they are even if a little bit similar" + descByGpt + " and "+ input + ", return true or false only.";
+      let outputofgen = await generateCompletion(prompt);
+      console.log(outputofgen)
+      if (outputofgen.toLocaleLowerCase().search("true")){
+          res.render("Success")
+      }else{
+        res.render("Failure")
+      }
+    })();
+
+
+    }
+    main();
   }
-  main();
-}
+  
 
 app.use(bodyParser.json());
 
@@ -407,7 +443,8 @@ app.post('/processInput', (req, res) => {
       Input 2: ${input2}
       Input 3: ${input3}
     `);
-    imgRec(input3, input1);
+    imgRec(input3, input1)
+
   } else {
     // Respond with an error message if any input is missing
     res.status(400).json({ success: false, message: 'Both inputs are required' });

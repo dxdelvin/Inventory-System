@@ -23,7 +23,7 @@ body {
 }
 
 .sidebar {
-    width: 35%;
+    width: 24%;
     background-color: #f4f4f4;
     padding: 20px;
 }
@@ -114,10 +114,10 @@ h3{
 .item {
     background-color: #fff;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
-    width: 80%;
+    /* width: 80%; */
     margin-top: 10px;
     float: right;
 }
@@ -149,7 +149,6 @@ span{
 }
 
 .chat-container{
-    padding-left: 50px;
     width: 70%;
 }
 
@@ -169,4 +168,5 @@ span{
 
 img {
     width: 40%;
+    border-radius: 10px;
 }

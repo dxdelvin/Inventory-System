@@ -23,6 +23,9 @@
 body {
   font-family: "Poppins", sans-serif;
   background-color: var(--secondary-color);
+  width: 100vw;
+  /* display: flex; */
+  overflow-x: hidden;
 }
 
 nav {
@@ -81,7 +84,7 @@ nav {
   min-height: 70vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 5rem;
+  gap: 2rem;
 }
 
 .content__container {

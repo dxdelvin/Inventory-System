@@ -12,12 +12,12 @@
   <div class="container">
     <div class="sidebar">
         <div class="logo">
-            <h3>Boomers</h1>
+            <h1>ReportRepo</h1>
         </div>
         <div><button class="report-button"><a href="/reportnew">+ New Report</a></button>
           <button class="button" onclick="filterData('My Reports')">My Reports</button></div>
 
-        <div class="smallMenu">Menu:</div>
+        <div class="smallMenu">Channels</div>
 
         <div class="button-group">
             <button class="button" onclick="filterData('bribe')">Bribe</button>
@@ -28,18 +28,19 @@
         </div>
         <div class="bottom-div">
           <hr>
-          <div class="smallMenu">Profile:</div>
+          <div class="smallMenu">Profile</div>
           <div class="user-info">
-            <h2>Email Id:</h2>
-            <h3><%=email%></h3>
+            <h2>Email Id</h2>
+            <p><%=email%></p>
           </div>
 
-            <a href="/logout"><button class="logout-button">Logout</button></a>
+            <a href="/logout"><button class="logout-button">- Logout</button></a>
         </div></div>
         <div class="chat-container">
           <div id="dataContainer"></div>
       </div>
       <script>
+        
         // const jsonData = [
         //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
         //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
@@ -96,7 +97,7 @@
 
                 const locationPara = document.createElement('span');
                 locationPara.classList.add('location');
-                locationPara.textContent = item.location;
+                locationPara.textContent = "19.0760 N, 72.8777 E";
                 div.appendChild(locationPara);
 
                 const likesPara = document.createElement('span');
