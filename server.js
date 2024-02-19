@@ -200,7 +200,7 @@ app.post('/getMessage',(req,res)=>{
 
 function imgRec(imageLink, input){
   // Replace 'your-api-key' with your actual OpenAI API key
-  const apiKey = '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';
+  const apiKey = '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';
   
   const openai = new OpenAI({"apiKey": apiKey});
   
@@ -249,9 +249,9 @@ function imgRec(imageLink, input){
       let outputofgen = await generateCompletion(prompt);
       console.log(outputofgen)
       if (outputofgen.toLocaleLowerCase().search("true")){
-          res.render("Success")
+          console.log("Success")
       }else{
-        res.render("Failure")
+        console.log("Failure")
       }
     })();
 
