@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Read Data with Metamask</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <button id="loginButton">Login with Metamask</button>
+
+
+  <script src="
+https://cdn.jsdelivr.net/npm/web3@4.5.0/dist/web3.min.js
+"></script>
+ <script>
+    window.addEventListener('load', async () => {
+      // Check if Metamask is installed
+      if (typeof window.ethereum !== 'undefined') {
+        console.log('Metamask is installed!');
+        // Request access to user's accounts
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+      } else {
+        console.error('Metamask not found. Please install Metamask extension.');
+      }
+    });
+
+    async function readData() {
+      const web3 = new Web3(window.ethereum);
+
+      // Load the smart contract
+    // Load the smart contract
+    const contractAddress = '0x615eE4c8843B4438D30cf9B1cef1db4016e86BfE';
+      const contractAbi = [
+  {
+    "inputs": [],
+    "name": "item_name",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      }
+    ],
+    "name": "setItem",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+];
+      const contract = new web3.eth.Contract(contractAbi, contractAddress);
+
+      // Get the user's account address
+      const accounts = await web3.eth.getAccounts();
+      const userAddress = accounts[0];
+
+      try {
+        // Call the smart contract function to read data for the specific account
+        const result = await contract.methods.getData(userAddress).call();
+        console.log('Data for account', userAddress, ':', result);
+      } catch (error) {
+        console.error('Error reading data:', error);
+      }
+    }
+
+    document.getElementById('loginButton').addEventListener('click', readData);
+  </script>
+
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

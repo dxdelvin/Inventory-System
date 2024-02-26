@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Animation</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            height: 100vh;
+            margin: 0;
+            font-family: "VT323", monospace;
+        }
+
+        .loading-container {
+            text-align: center;
+        }
+
+        .loading-gif {
+            width: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <img class="loading-gif" src="https://media.tenor.com/bYj_DhQQ87UAAAAi/discord-discordgifemoji.gif" alt="Loading Animation">
+    </div>
+
+    <form id="rfidForm" action="/payload" method="post">
+        <div id="rfid" style="display: none;">
+            <h1 style="color: white;">Scan Your RFID</h1>
+            <input name="rfidInput" type="text" id="rfidInput">
+            <!-- <input name="metaAddr" type="text" id="metaAddr" value="0x0E691bdB9ff827ad4DB6cB0B199C765601774057"> -->
+        </div>
+    </form>
+
+    <script>
+
+
+setTimeout(() => {
+            document.getElementsByClassName('loading-container')[0].style.display = "none";
+            document.getElementById("rfid").style.display = "block";
+            document.getElementById("rfidInput").focus();
+
+            // Add event listener to log input value
+            document.getElementById("rfidInput").addEventListener("input", function() {
+                if(this.value.length == 10){
+                    document.getElementById("rfidForm").submit();
+                    console.log("RFID input:", this.value);
+                }
+            });
+        }, 1500);
+    </script>
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>  
+
+</body>
+</html>

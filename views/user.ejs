@@ -1,128 +1,410 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./Character.png" type="image/x-icon">
-
-    <link rel="stylesheet" href="/user.css">
-    <title>User Dashboard</title>
-</head>
-<body>
-  <div class="container">
-    <div class="sidebar">
-        <div class="logo">
-            <h1>ReportRepo</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="navbar.css" />
+    <link rel="stylesheet" href="user.css" />
+    <link rel="stylesheet" href="table.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Invento</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div id="blob"></div>
+    <div id="blur"></div>
+    <div class="side_side">
+      <div id="sidebar">
+        <!-- <div style="display: flex; height: 20%;"></div> -->
+        <div
+          class="nav__logo"
+          style="margin: 5%; margin-bottom: 50%; margin-top: 15%"
+        >
+          <img id="logo_img" src="./img/fontbolt.png" alt="" />
         </div>
-        <div><button class="report-button"><a href="/reportnew">+ New Report</a></button>
-          <button class="button" onclick="filterData('My Reports')">My Reports</button></div>
 
-        <div class="smallMenu">Channels</div>
+        <ul>
+          <div class="sidebar_link_div">
+            <img
+              class="sidebar_link_img"
+              src="./img/icon/dashboard.png"
+              alt=""
+            />
 
-        <div class="button-group">
-            <button class="button" onclick="filterData('bribe')">Bribe</button>
-            <button class="button" onclick="filterData('corruption')">Corruption</button>
-            <button class="button" onclick="filterData('money_laundering')">Laundering</button>
-            <button class="button" onclick="filterData('political')">Political</button>
-            <button class="button" onclick="filterData('other')">Other</button>
-        </div>
-        <div class="bottom-div">
-          <hr>
-          <div class="smallMenu">Profile</div>
-          <div class="user-info">
-            <h2>Email Id</h2>
-            <p><%=email%></p>
+            <a class="sidebar_link" href="/" class="">DASHBOARD</a>
+          </div>
+          <div class="sidebar_link_div">
+            <img class="sidebar_link_img" src="./img/icon/add.png" alt="" />
+
+            <a class="sidebar_link" href="/addproduct" class="">PRODUCTS</a>
+          </div>
+          <div class="sidebar_link_div">
+            <img
+              class="sidebar_link_img"
+              src="./img/icon/analytics.png"
+              alt=""
+            />
+
+            <a class="sidebar_link" href="/" class="">ANALYTICS</a>
           </div>
 
-            <a href="/logout"><button class="logout-button">- Logout</button></a>
-        </div></div>
-        <div class="chat-container">
-          <div id="dataContainer"></div>
+          <div class="logout_div">
+            <div class="sidebar_link_div">
+              <img src="./img/icon/video.png" alt="" id="avatar" />
+              <div>
+                <h3
+                  style="
+                    color: white;
+                    letter-spacing: 1px;
+                    font-weight: 500;
+                    font-size: 18px;
+                  "
+                >
+                  Steve Hawkin
+                </h3>
+                <span
+                  style="
+                    color: rgb(212, 255, 187);
+                    font-weight: 300;
+                    letter-spacing: 1px;
+                  "
+                  >Owner</span
+                >
+              </div>
+            </div>
+            <div
+              class="sidebar_link_div"
+              style="margin-top: 20px; margin-left: 4px"
+            >
+              <img
+                class="sidebar_link_img"
+                src="./img/icon/logout.png"
+                alt=""
+                style="width: 15px"
+              />
+              <a class="sidebar_link" href="/" style="font-size: 14px"
+                >LOGOUT</a
+              >
+            </div>
+          </div>
+        </ul>
       </div>
-      <script>
-        
-        // const jsonData = [
-        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
-        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
-        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
-        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
-        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
-        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
-        //     { report_category: "other", enquiry_name: "Random enquiry_name 1", enquiry: "Random Text 1", location: "Airoli", likes: 5, dislikes: 0, img: './img/f1.png' },
-        //     { report_category: "corruption", enquiry_name: "Random enquiry_name 2", enquiry: "Random Text 2", location: "Mumbai", likes: 10, dislikes: 2, img: './img/f3.png' },
-        //     // Add more data items with different report_categorys
-        // ];
+
+      <div>
+        <ul style="margin-top: 22px" class="nav__links">
+          <li class="link"><a class="link_a">Analytics</a></li>
+        </ul>
+        <div id="responseDisplay"></div>
+        <canvas id="salesChart"></canvas>
+        <nav>
+          <ul class="nav__links">
+            <li class="link"><a class="link_a">Inventory</a></li>
+          </ul>
+        </nav>
+
+        <div>
+          <table id="productTable" border="1">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Category</th>
+                <th>Unit Price (Gems)</th>
+                <th>Inventory Level</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Table content will be dynamically generated using JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script>
 
 
-  let jsonData= []
-  async function fetchData() {
-    try {
-      const response = await fetch('http://192.168.1.121:3000/getRequests', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+function displayTable(){
+  fetch("./img/resources/output.json")
+  .then((response) => response.json())
+  .then((products) => {
+    // Get the table body
+    const tableBody = document.querySelector("#productTable tbody");
+
+    // Populate the table with product data
+    jsonData.forEach((product) => {
+      const row = tableBody.insertRow();
+      Object.entries(product).forEach(([key, value], index) => {
+        const cell = row.insertCell();
+        // If the value is an image path, create an image element
+        if (key === "img") {
+          // const img = document.createElement('img');
+          // img.src = value;
+          // img.alt = 'Product Image';
+          // img.style.width = '50px'; // Adjust the width as needed
+          // cell.appendChild(img);
+        } else {
+          cell.textContent = value;
+        }
       });
+    });
 
-      if (response.ok) {
-        jsonData = await response.json();
-        // updateTable(requestData);
-        console.log(jsonData)
-      } else {
-        console.error('Server error:', response.statusText);
+    $(document).ready(function () {
+      $("#productTable").DataTable();
+    });
+
+    // Add event listener to the category filter dropdown
+    $("#categoryFilter").change(function () {
+      const selectedCategory = $(this).val();
+      dataTable.columns(2).search(selectedCategory).draw();
+    });
+  })
+  .catch((error) => console.error("Error fetching products:", error));
+}
+
+      // Fetch products from the JSON file
+      
+      let jsonData = []
+fetch('/apiitems')
+  .then(response => response.json()) // Get the response as json
+  .then(json => {
+    for (let i = 0; i < json.length; i++) {
+      if (json[i].item_name && json[i].item_name.includes("productName")) {
+
+        const matches = json[i].item_name.match(/\{.*\}/);;
+        if (matches && matches.length > 0) {
+          jsonData.push(JSON.parse(matches[0]));
+        }
       }
-    } catch (error) {
-      console.error('Error:', error);
     }
-  }
+    displayTable()
+  })
+  .catch(error => console.error('Error fetching products:', error));
 
-  fetchData()
 
+      function getCurrentMonth() {
+        // Array of month names
+        const monthNames = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
 
+        // Create a new Date object to get the current date
+        const currentDate = new Date();
 
-        function filterData(report_category) {
-            const container = document.getElementById('dataContainer');
-            container.innerHTML = ''; // Clear previous data
-            
-            const filteredData = jsonData.filter(item => item.report_category === report_category);
-            displayData(filteredData);
-        }
+        // Get the current month (0-indexed, so January is 0)
+        const currentMonthIndex = currentDate.getMonth() + 1;
 
-        function displayData(data) {
-            const container = document.getElementById('dataContainer');
+        // Get the month name from the array using the current month index
+        const currentMonthName = monthNames[currentMonthIndex];
 
-            data.forEach(item => {
-                const div = document.createElement('div');
-                div.classList.add('item');
+        return currentMonthName;
+      }
 
-                const locationPara = document.createElement('span');
-                locationPara.classList.add('location');
-                locationPara.textContent = "19.0760 N, 72.8777 E";
-                div.appendChild(locationPara);
+      function makeRequest(products) {
+        var url = "http://192.168.174.84:9000/predict_sales";
 
-                const likesPara = document.createElement('span');
-                likesPara.classList.add('likes');
-                likesPara.textContent = `Likes: ${item.likes}`;
-                div.appendChild(likesPara);
+        // Array to store predicted sales data
+        var salesData = [];
 
-                const enquiry_namePara = document.createElement('h5');
-                enquiry_namePara.textContent = item.enquiry_name;
-                div.appendChild(enquiry_namePara);
+        // Loop through each product
+        products.forEach((product) => {
+          // Data to be sent in the request body
+          var data = {
+            product: product,
+            year: 2024,
+            month: getCurrentMonth(),
+          };
 
-                const enquiryPara = document.createElement('p');
-                enquiryPara.textContent = item.enquiry;
-                div.appendChild(enquiryPara);
+          // Options for the fetch request
+          var options = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          };
 
-                const img = document.createElement('img');
-                img.src = item.image_link;
-                div.appendChild(img);
+          // Make the fetch request
+          fetch(url, options)
+            .then((response) => {
+              // Check if the response is successful (status 200)
+              if (response.ok) {
+                // Parse the JSON response
+                return response.json();
+              }
+              // If response is not successful, throw an error
+              throw new Error("Network response was not ok.");
+            })
+            .then((data) => {
+              // Handle the JSON data
+              console.log(
+                "Predicted sales for",
+                product,
+                ":",
+                data.predicted_sales
+              );
+              // Push predicted sales data to salesData array
+              salesData.push({ product: product, sales: data.predicted_sales });
 
-                container.appendChild(div);
+              // Check if data is available for all products
+              if (salesData.length === products.length) {
+                // All data received, create chart
+                createChart(salesData);
+              }
+            })
+            .catch((error) => {
+              // Handle any errors that occurred during the fetch
+              console.error(
+                "There was a problem with your fetch operation:",
+                error
+              );
             });
+        });
+      }
+
+      function createChart(data) {
+        // Extract product names and sales data
+        const labels = data.map((item) => item.product);
+        const sales = data.map((item) => item.sales);
+
+        const canvasWidth = 800; // Set your desired width here
+        const canvasHeight = 400; // Set your desired height here
+
+        // Set the canvas width and height dynamically
+        document
+          .getElementById("salesChart")
+          .setAttribute("width", canvasWidth);
+        document
+          .getElementById("salesChart")
+          .setAttribute("height", canvasHeight);
+
+        // Create a bar chart using Chart.js
+        var ctx = document.getElementById("salesChart").getContext("2d");
+        var chart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Predicted Sales of: " + getCurrentMonth(),
+                data: sales,
+                backgroundColor: "rgba(255, 255, 255, 0.4)", // White with some opacity
+                borderWidth: 0, // Remove border
+              },
+            ],
+          },
+          options: {
+            scales: {
+              x: {
+                ticks: {
+                  color: "white", // Set x-axis label color to white
+                },
+              },
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  color: "white", // Set y-axis label color to white
+                },
+              },
+            },
+          },
+        });
+      }
+      function displayResponse(response) {
+
+    const responseDisplay = document.getElementById('responseDisplay');
+    // responseDisplay.replace('Response from predict_expiration_date:',"Expiration Date:")
+    responseDisplay.textContent = 'Response from predict_expiration_date: ' + response;
+}
+      function makeRequest2(products,randomDate) {
+    const payload = {
+        item: products,
+        date_added: randomDate
+    };
+
+    fetch('http://192.168.174.84:9800/ped', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        return response.json();
+    })
+    .then(data => {
+      displayResponse(data.predicted_expiration_date);
+        console.log('Response from predict_expiration_date:', data.predicted_expiration_date);
 
-        
+        // Handle the data as needed
+    })
+    .catch(error => console.error('Error making request to predict_expiration_date:', error));
+}
 
-      </script>
-</body>
+
+      // Fetch the JSON data for prediction
+      fetch('./img/resources/output.json')
+          .then(response => response.json())
+          .then(data => {
+              // Sort the data by predicted_sales in descending order
+              data.sort((a, b) => b.predicted_sales - a.predicted_sales);
+              // Extract top 5 product names
+              const topProducts = data.slice(0, 5).map(item => item["Item Name"]); // Corrected syntax
+              // Call makeRequest with the top 5 product names
+              
+              const randomDate = ['2024-02-25','2024-02-25','2024-02-25','2024-02-25','2024-02-25'];
+              makeRequest(topProducts);
+              for (let i = 0; i < topProducts.length; i++) {
+              // topProducts=[]
+              makeRequest2(topProducts[i],randomDate[i]);
+              console.log(topProducts[i])
+                
+                
+              }
+          })
+          .catch(error => console.error('Error fetching JSON file:', error));
+    </script>
+
+
+
+    <div id="google_translate_element"></div>
+
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: "en" },
+          "google_translate_element"
+        );
+      }
+    </script>
+
+    <script
+      type="text/javascript"
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+    
+  </body>
 </html>

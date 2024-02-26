@@ -1,0 +1,12 @@
+[ {
+    "Item ID": "001",
+    "img": "./img/images/images/wheat.png",
+    "Item Name": "Wheat",
+    "Category": "Crop",
+    "Unit Price (Gems)": "1",
+    "Sales Volume (Month)": "2000",
+    "Lead Time (Days)": "3",
+    "Reorder Quantity": "1500",
+    "Inventory Level": "1800",
+    "Restocking": "0"
+  }]

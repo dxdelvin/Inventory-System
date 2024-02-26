@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login with MetaMask</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Login with MetaMask</h1>
+    <form id="loginForm" action="/payload_trader" method="post">
+      <input type="hidden" name="rfidInput" value="0000000000"> <!-- Hardcoded RFID value -->
+      <input type="hidden" name="metaAddr" id="metaAddr">
+      <button type="button" onclick="loginWithMetaMask()">Login with MetaMask</button>
+      <button type="submit" style="display: none;">Submit</button> <!-- Hidden submit button -->
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@4.5.0/dist/web3.min.js"></script>
+
+  <script>
+    async function loginWithMetaMask() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Requesting permission to access accounts
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          if (accounts.length > 0) {
+            // Set the MetaMask account address in the hidden input field
+            document.getElementById('metaAddr').value = accounts[0];
+            // Submit the form
+            document.getElementById('loginForm').submit();
+          } else {
+            console.log('No MetaMask accounts found.');
+          }
+        } catch (error) {
+          if (error.code === 4001) {
+            // User rejected request
+            console.log('User rejected MetaMask request');
+          } else {
+            console.error('Error occurred:', error);
+          }
+        }
+      } else {
+        // MetaMask not found, display an error message to the user
+        alert('MetaMask not found. Please install MetaMask extension.');
+      }
+    }
+  </script>
+
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

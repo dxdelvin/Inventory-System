@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+  --primary-color: #5c48ee;
+  --primary-color-dark: #0f1e6a;
+  --secondary-color: #f9fafe;
+  --text-color: #333333;
+  --white: #ffffff;
+  --max-width: 1000px;
+}
+
+.titletext{
+  line-height: normal;
+  margin-bottom: 20px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "VT323", monospace;
+  background-color: var(--secondary-color);
+  
+  font-weight: 400;
+  font-style: normal;
+  
+  width: 100vw;
+  /* display: flex; */
+  overflow-x: hidden;
+}
+
+nav {
+  /* max-width: var(--max-width); */
+  padding: 2rem;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav__logo a {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.nav__links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.link a {
+  padding: 0.5rem 1rem;
+  font-size: 2rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.link a:hover {
+  color: var(--primary-color);
+}
+
+.link .nav__btn {
+  padding: 0.5rem 2rem;
+  color: var(--white) !important;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+}
+
+.link .nav__btn:hover {
+  background-color: var(--primary-color-dark);
+}
+
+
+#logo_img{
+  width: 150px;
+  height: auto;
+}

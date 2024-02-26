@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google/generative-ai": "^0.2.1",
     "axios": "^1.6.7",
     "body-parser": "^1.20.2",
     "connect-session-sequelize": "^7.1.7",
@@ -33,6 +34,9 @@
     "sequelize": "^6.37.0",
     "socket.io": "^4.7.4",
     "sqlite3": "^5.1.7",
+    "truffle": "^5.11.5",
+    "twilio": "^4.22.0",
+    "uws": "^200.0.0",
     "web3": "^4.5.0",
     "ws": "^8.16.0"
   },

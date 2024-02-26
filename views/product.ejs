@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container" style="margin: 40px 0px;">
+        <img id="f1" src="./img/f1.png" alt="">
+        
+        <!-- <form id="productForm" method="post"> -->
+            <label class="labell" for="productName">Product Name</label>
+            <input type="text" id="productName" name="productName" placeholder="Enter Your Product" required>
+
+            <label class="labell" for="productCategory">Product Category</label>
+            <select id="productCategory" name="productCategory" required>
+                <option value="Food">Food</option>
+                <option value="Block">Block</option>
+                <option value="Crop">Crop</option>
+                <option value="Tool" selected>Tool</option>
+            </select> 
+
+            <div class="">
+                <label class="labell" for="totalStock">Total Stock</label>
+                <input type="number" id="totalStock" name="totalStock" placeholder="Enter Total Stock Available" required>
+            </div>
+
+
+
+            <label class="labell" for="priceInGems">Price in Gems</label>
+            <input type="number" id="priceInGems" name="priceInGems" placeholder="Enter Price of Per Product" required>
+
+            <button type="submit" onclick="saveProductData()">Submit</button>
+        <!-- </form> -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/web3@4.5.0/dist/web3.min.js"></script>
+
+    <script>
+        async function saveProductData() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                    const sender = accounts[0];
+    
+                    const contractAddress = '0x615eE4c8843B4438D30cf9B1cef1db4016e86BfE';
+                    const contractAbi = [
+                        {
+                            "inputs": [],
+                            "name": "user",
+                            "outputs": [
+                                {
+                                    "internalType": "string",
+                                    "name": "",
+                                    "type": "string"
+                                }
+                            ],
+                            "stateMutability": "view",
+                            "type": "function",
+                            "constant": true
+                        },
+                        {
+                            "inputs": [
+                                {
+                                    "internalType": "string",
+                                    "name": "_name",
+                                    "type": "string"
+                                }
+                            ],
+                            "name": "setItem",
+                            "outputs": [],
+                            "stateMutability": "nonpayable",
+                            "type": "function"
+                        }
+                    ];
+    
+                    // Initialize web3 object
+                    if (typeof web3 !== 'undefined') {
+                        window.web3 = new Web3(web3.currentProvider);
+                    } else {
+                        // Handle case where web3 is not provided by MetaMask
+                        alert('Please install MetaMask extension.');
+                        return;
+                    }
+    
+                    const contract = new window.web3.eth.Contract(contractAbi, contractAddress);
+                    const productName = document.getElementById('productName').value;
+          const productCategory = document.getElementById('productCategory').value;
+          const totalStock = document.getElementById('totalStock').value;
+          const priceInGems = document.getElementById('priceInGems').value;
+
+          const dataObject = {
+            productName: productName,
+            productCategory: productCategory,
+            totalStock: totalStock,
+            priceInGems: priceInGems
+          };
+
+          const strDataObj = JSON.stringify(dataObject);
+
+          const result = await contract.methods.setItem(strDataObj).send({ from: sender });
+          console.log('Transaction Hash:', result.transactionHash);
+          
+          alert('Product data saved successfully!');
+
+          console.log('Product Data:', JSON.stringify(dataObject));
+                    // Rest of the code remains the same...
+                } catch (error) {
+                    console.error('Error occurred:', error);
+                }
+            } else {
+                alert('MetaMask not found. Please install MetaMask extension.');
+            }
+        }
+    
+        async function login() {
+            // Login function code remains the same...
+        }
+    
+        login();
+    </script>
+    
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

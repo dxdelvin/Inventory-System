@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="navbar.css">
+  <title>Save Data with Metamask</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    .container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+input[type="text"], button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+h1{
+  color: black;
+}
+
+input{
+  padding: 10px;
+  border: 1px solid black;
+  margin: 10px;
+  margin-left: 0;
+}
+
+</style>
+<body>
+  <div class="container">
+    <h1>New Framer</h1>
+
+    <!-- <form id="jsonForm"> -->
+      <input type="text" id="rfidInput" placeholder="Tap RFID">
+
+        <input type="text" id="yourName" placeholder="Enter Your Name">
+        <input type="number" id="phoneNumber" placeholder="Enter Phone Number">
+        
+        <button type="submit" onclick="initApp()">Save Data</button>
+      <!-- </form> -->
+  </div>
+
+  <script src="
+https://cdn.jsdelivr.net/npm/web3@4.5.0/dist/web3.min.js
+"></script>
+
+  <script>
+  
+  let rfid = ""
+  let metaAddr 
+  async function login() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          console.log('MetaMask account address:', accounts[0]);
+          localStorage.setItem("metaAddr", accounts[0] )
+        } catch (error) {
+          if (error.code === 4001) {
+            console.log('User rejected MetaMask request');
+          } else {
+            console.error('Error occurred:', error);
+          }
+        }
+      } else {
+        alert('MetaMask not found. Please install MetaMask extension.');
+      }
+    }
+
+    login();
+  
+    document.getElementById("rfidInput").focus();
+
+    // Add event listener to log input value
+    document.getElementById("rfidInput").addEventListener("input", function() {
+        if(this.value.length == 10){
+          rfid = this.value
+            console.log("RFID input:", this.value);
+        }
+    });
+
+  async function initApp() {
+    if (typeof window.ethereum !== 'undefined') {
+      // Prompt the user to connect their Metamask wallet
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      window.web3 = new Web3(window.ethereum);
+  
+      // Load the smart contract
+      const contractAddress = '0xe7559f74E37F48DfAF5f04313844D786bd385D28';
+      const contractAbi = [
+  {
+    "inputs": [],
+    "name": "user",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      }
+    ],
+    "name": "setItem",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
+      
+      const contract = new window.web3.eth.Contract(contractAbi, contractAddress);
+  
+
+          const yourName = document.getElementById('yourName').value;
+          const phoneNumber = document.getElementById('phoneNumber').value;
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+          const sender = accounts[0];
+  
+          const dataObject = [{
+            sender: sender,
+            rfid: rfid,
+            yourName: yourName,
+            phoneNumber: phoneNumber
+          }];
+          const strDataObj = JSON.stringify(dataObject)
+            // Send a transaction to the smart contract to save data
+          const result = await contract.methods.setItem(strDataObj).send({ from: sender });
+          console.log('Transaction Hash:', result.transactionHash);
+          
+          // Optionally, display a success message to the user
+          alert('Data saved successfully!');
+
+          console.log('Data Object:', JSON.stringify(dataObject));
+          window.location.href = "/hardcore"
+
+
+    
+    } else {
+      // Metamask not found, display an error message to the user
+      alert('Metamask not found. Please install Metamask extension.');
+    }
+  }
+  </script>
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

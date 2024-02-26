@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="navbar.css" />
+    <link rel="stylesheet" href="user.css" />
+    <link rel="stylesheet" href="table.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Invento</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  </head>
+  <body>
+    <div id="blob"></div>
+    <div id="blur"></div>
+    <div class="side_side">
+      <div id="sidebar">
+
+        <!-- <div style="display: flex; height: 20%;"></div> -->
+        <div class="nav__logo" style="margin: 5%;margin-bottom: 50%; margin-top: 15%; "><img id="logo_img" src="./img/fontbolt.png" alt="" ></div>
+
+        <ul>
+          <div class="sidebar_link_div">
+            <img   class="sidebar_link_img" src="./img/icon/dashboard.png" alt="">
+  
+            <a  class="sidebar_link" href="/" class="">DASHBOARD</a>
+            
+          </div>
+          <div class="sidebar_link_div">
+            <img   class="sidebar_link_img" src="./img/icon/add.png" alt="">
+  
+           <a  class="sidebar_link" href="/trader" class="">INVENTROY</a>
+          </div>
+          <div class="sidebar_link_div">
+            <!-- <img   class="sidebar_link_img" src="./img/icon/analytics.png" alt=""> -->
+  
+            <!-- <a  class="sidebar_link" href="/" class="">ANALYTICS</a> -->
+          </div>
+
+          
+
+        <div class="logout_div">
+          <div class="sidebar_link_div">
+            <img src="./img/icon/video.png" alt="" id="avatar">
+            <div>
+              <h3 style="color: white; letter-spacing: 1px; font-weight: 500; font-size: 18px;">Steve Hawkin</h3>
+              <span style="color: rgb(212, 255, 187); font-weight: 300; letter-spacing: 1px;">Owner</span>
+            </div>
+          </div>
+          <div class="sidebar_link_div" style="margin-top: 20px; margin-left: 4px;">
+            <img   class="sidebar_link_img" src="./img/icon/logout.png" alt="" style="width: 15px;">
+            <a  class="sidebar_link" href="/login" style="font-size: 14px;">LOGOUT</a>
+          </div>
+        </div>
+          
+
+        </ul>
+      </div>
+
+      
+        
+
+        <div>
+          <nav>
+            <ul class="nav__links">
+              <li class="link"><a class="link_a">Your Cart:</a></li>
+            </ul>
+          </nav>
+         
+          <table id="productTable" border="1">
+            <thead>
+              <tr>
+                <!-- <th>Item ID</th> -->
+                
+                <th>Item Name</th>
+                <th>Category</th>
+                <th>Unit Price (Gems)</th>
+                <!-- <th>Lead Time (Days)</th> -->
+                <th>Reorder Quantity</th> 
+                <!-- <th>Restocking</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Table content will be dynamically generated using JavaScript -->
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    // Fetch products from the JSON file
+    fetch('./img/resources/cart.json')
+        .then(response => response.json())
+        .then(products => {
+            // Get the table body
+            const tableBody = document.querySelector('#productTable tbody');
+
+            // Populate the table with product data
+            products.forEach(product => {
+                const row = tableBody.insertRow();
+                // Exclude the last 3 columns
+                [ 'Item Name', 'Category', 'Unit Price (Gems)', 'Reorder Quantity'].forEach(key => {
+                    const value = product[key];
+                    const cell = row.insertCell();
+                    // If the value is an image path, create an image element
+                    if (key === 'Image') {
+                        const img = document.createElement('img');
+                        img.src = value;
+                        img.alt = 'Product Image';
+                        img.style.width = '50px'; // Adjust the width as needed
+                        cell.appendChild(img);
+                    } else {
+                        cell.textContent = value;
+                    }
+                });
+
+                
+
+                // const buyButton = document.createElement('button');
+                // buyButton.textContent = 'Add to Cart';
+                buyButton.addEventListener('click', () => {
+                    // Handle the "Add to Cart" functionality here
+                    console.log('Added to Cart:', product['Item Name']);
+                });
+
+                row.insertCell().appendChild(buyButton);
+            });
+
+            // Initialize DataTable
+            $(document).ready(function () {
+                $('#productTable').DataTable();
+            });
+        })
+        .catch(error => console.error('Error fetching products:', error));
+});
+
+    </script>
+
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

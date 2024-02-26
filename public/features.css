@@ -1,0 +1,109 @@
+.feature{
+	width: 100%;
+	padding:50px 0 50px;
+}
+.feature .heading{
+	text-align: center;
+	width: 100%;
+	padding:20px 0 20px;
+}
+.feature .heading h2{
+	font-size: 32px;
+	font-weight: 400;
+}
+.feature .heading h2 span{
+	color: #117EC3;
+}
+.feature .heading h6{
+	letter-spacing: 0.5px;
+	font-weight: 300;
+	font-size: 14px;
+	padding:8px 0 8px;
+}
+.feature .separator{
+	width: 50px;
+	height: 2px;
+	margin-bottom: 50px;
+	background-color: #555555;
+	display: inline-block;
+}
+.feature-main{
+	width: 100%;
+	border-bottom: 2px solid transparent;
+	background-color: #f9f9f9;
+	padding-bottom: 20px;
+}
+/* .feature-main:hover .feature-box img{
+	opacity: 0.9;
+} */
+.cover:before{
+	content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 0px 250px rgba(0,0,0,0.65) inset;
+    -webkit-transition: 0.7s ease 0s;
+    -moz-transition: 0.7s ease 0s;
+    -o-transition: 0.7s ease 0s;
+    -ms-transition: 0.7s ease 0s;
+    transition: 0.7s ease 0s;
+}
+.feature-main:hover .cover:before{
+	box-shadow: none;
+}
+.feature .feature-box{
+	/* position: relative; */
+	width: 100%;
+	height: auto;
+	position: relative;
+}
+.feature .feature-box img{
+	width: 100%;
+	height: auto;	
+}
+.feature .feature-head{
+	text-align: center;
+	padding: 10px 15px;
+	border-top: none;
+}
+.feature .feature-head h3{
+	font-size: 16px;
+	color: #333;
+	font-weight: 600;
+}
+.feature .feature-head p{
+	color: #999;
+	letter-spacing: 0.4px;
+	line-height: 1.7;
+	margin: 20px 0 20px;
+}
+.feature .feature-head a{
+	color: #000;
+	font-size: 13px;
+	padding:10px 20px;
+	border-radius: 5px;
+	display: inline-block;
+	-webkit-transition: 0.5s ease 0s;
+	-moz-transition: 0.5s ease 0s;
+	-ms-transition: 0.5s ease 0s;
+	-o-transition: 0.5s ease 0s;
+	transition: 0.5s ease 0s;
+}
+.feature .feature-head i{
+	margin-left: 5px;
+}
+.feature-main:hover{
+	border-bottom: 2px solid #117EC3;
+}
+.feature-main:hover .feature-head a{
+	background-color: #117EC3;
+	color: #fff;
+	text-decoration: none;
+}
+@media all and (max-width: 767px){
+	.feature-main{
+		margin-bottom: 15px;
+	}
+}

@@ -1,176 +1,126 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-
-body {
-    font-family: "Poppins", sans-serif;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    min-height: 100vh;
-    background-size: cover;
-    background-color: #5c4cec;
-    font-size: 0.7rem;
+body{
+    background-color: black;
 }
 
-body {
-    font-family: Poppins, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    display: flex;
-}
-
-.sidebar {
-    width: 24%;
-    background-color: #f4f4f4;
-    padding: 20px;
-}
-.content {
-    flex: 1;
-    padding: 20px;
-}
-.logo {
-    margin-bottom: 20px;
-}
-
-button a{
-    text-decoration: none;
+.link_a{
     color: white;
 }
 
-.report-button {
-    width: 90%;
-    background-color: black;
-    color: rgb(255, 255, 255);
-    border: none;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-.logout-button {
-    width: 90%;
-    background-color: rgb(172, 172, 172);
-    color: rgb(30, 30, 30);
-    border: none;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-.button-group {
-    margin-bottom: 20px;
-}
-.button {
-    padding: 8px 10px;
-    margin-bottom: 8px;
-    border: none;
-    width: 90%;
-    cursor: pointer;
-}
-
-.button:hover{
-    background-color: #ccc;
-}
-.bottom-div {
-    width: 23%;
-    margin-top: auto;
-    position: absolute;
-    bottom: 0;
-}
-.user-info {
-    font-size: small;
-    margin-top: 20px;
-}
-
-.smallMenu{
-    color: #8b98a8;
-    font-size: 15px;
-}
-
-h2{
-    margin-bottom: 2px;
-    margin-top: 5px;
-}
-
-h3{
-    margin-top: 2px;
-}
-
-.chat-container {
+#blob{
+    opacity: 0.4;
+    z-index: -2;
+    height: 432px;
     width: 80%;
-    margin: 20px auto;
-}
+    margin-top: 4%;
+    aspect-ratio: 1;
+    position: absolute;
+  background-image: linear-gradient(210deg, #FFFFFF 0%, #31f4f5 50%, #edff15 100%);
+    border-radius: 50%;
+  }
+  
+  
+  
+  #blur{
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    z-index: -1;
+    backdrop-filter: blur(60px);
+  }
 
-.chat-message {
-    margin-bottom: 10px;
-}
+   #sidebar{
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    flex-wrap: wrap;
+   }
 
-.upvote, .downvote {
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.item {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    /* width: 80%; */
+  .sidebar_link_div{
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    padding: 10px;
     margin-top: 10px;
-    float: right;
-}
-
-.location {
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 5px;
-}
-
-.title {
-    font-size: 18px;
-    font-weight: bold;
     margin-bottom: 10px;
-}
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* justify-content: space-between; */
+    margin-left: 30px;
+    align-items: center;
+  }
 
-.enquiry {
-    font-size: 14px;
-    color: #333;
-}
+  .sidebar_link{
+    text-decoration-line: none;
+    color: white;
+    font-size: 20px;
+    padding-left: 10px;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
 
-.likes {
-    font-size: 14px;
-    color: #888;
-}
+  .sidebar_link_img{
+    width: 20px;
 
-span{
-    margin-right: 10px;
-}
 
-.chat-container{
-    width: 70%;
-}
+  }
 
-#dataContainer{
-    width: 95%;
-}
+  .side_side{
+    display: flex;
+    flex-direction: row;
+  }
 
-.item h5{
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin: 3px 0;
-}
-
-.item p{
-    margin: 3px 0;
-}
-
-img {
-    width: 40%;
-    border-radius: 10px;
-}
-
-.location{
+  nav{
     width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .logout_div{
+    display: flex;
+    margin-top: 100%;
+    height: fit-content;
+    
+    background-color: #c2ffbc2d;
+    border-radius: 15px;
+    margin-left: 10px;
+    display: block;
+    padding: 10px;
+    padding-bottom: 20px;
+    padding-top: 15px;
+  }
+  
+  .logout_div .sidebar_link_div{
+    padding: 0;
+    margin: 0;
+  }
+
+  #avatar{
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+  }
+
+#salesChart{
+  color: white;
+     background-color: rgb(97 216 110 / 11%);
+    width: 90%;
+    font-family: "Poppins";
+    font-weight: 400;
+    /* border-collapse: collapse; */
+    border: 1px solid rgba(255, 255, 255, 0.558);
+    margin-top: 20px;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+label{
+  color:white;
+}
+
+table button{
+  padding: 8px 16px;
+  background-color: white;
 }

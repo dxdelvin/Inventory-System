@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="navbar.css">
+  <title>Save Data with Metamask</title>
+</head>
+<style>
+    .container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+input[type="text"], button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+h1{
+  color: black;
+}
+
+input{
+  padding: 10px;
+  border: 1px solid black;
+}
+
+</style>
+<body>
+  <div class="container">
+    <h1>New Framer</h1>
+
+    <form id="jsonForm">
+        <input type="text" id="itemName" placeholder="Enter Item Name">
+        <input type="number" id="itemPrice" placeholder="Enter Item Price">
+        <button type="submit">Save Data</button>
+      </form>
+  </div>
+
+  <script src="
+https://cdn.jsdelivr.net/npm/web3@4.5.0/dist/web3.min.js
+"></script>
+
+  <script>document.addEventListener('DOMContentLoaded', function () {
+    initApp();
+  });
+  
+  async function initApp() {
+    if (typeof window.ethereum !== 'undefined') {
+      // Prompt the user to connect their Metamask wallet
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      window.web3 = new Web3(window.ethereum);
+  
+      // Load the smart contract
+      const contractAddress = '0x615eE4c8843B4438D30cf9B1cef1db4016e86BfE';
+      const contractAbi = [
+  {
+    "inputs": [],
+    "name": "item_name",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      }
+    ],
+    "name": "setItem",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+];
+      const contract = new window.web3.eth.Contract(contractAbi, contractAddress);
+  
+
+      const jsonForm = document.getElementById('jsonForm');
+        jsonForm.addEventListener('submit', async function (event) {
+          event.preventDefault();
+          
+          const itemName = document.getElementById('itemName').value;
+          const itemPrice = document.getElementById('itemPrice').value;
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+          const sender = accounts[0];
+  
+          const dataObject = [{
+            sender: sender,
+            itemName: itemName,
+            itemPrice: itemPrice
+          }];
+          const strDataObj = JSON.stringify(dataObject)
+            // Send a transaction to the smart contract to save data
+          const result = await contract.methods.setItem(strDataObj).send({ from: sender });
+          console.log('Transaction Hash:', result.transactionHash);
+          
+          // Optionally, display a success message to the user
+          alert('Data saved successfully!');
+
+          console.log('Data Object:', JSON.stringify(dataObject));
+        });
+
+
+    
+    } else {
+      // Metamask not found, display an error message to the user
+      alert('Metamask not found. Please install Metamask extension.');
+    }
+  }
+  </script>
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

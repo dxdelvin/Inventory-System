@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 body {
-    font-family: "Poppins", sans-serif;
+  font-family: "VT323", monospace;
     background-color: #444;
     color: #fff;
     margin: 0;
@@ -17,7 +17,11 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 30px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
   
   .users {
     flex: 1;
@@ -60,3 +64,5 @@ body {
     background-color: #4CAF50;
   }
   
+  
+    

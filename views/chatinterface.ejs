@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Example</title>
+    
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #chatForm {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #userMessage {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 250px;
+        }
+
+        #sendButton {
+            padding: 8px 12px;
+            font-size: 16px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #sendButton:hover {
+            background-color: #45a049;
+        }
+
+        #chatDisplay {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        p {
+            margin: 10px 0;
+            padding: 8px;
+            background-color: #e0f7fa;
+            border-radius: 4px;
+        }        #loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }       #loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .user-message {
+            background-color: #e0f7fa;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 10px 0;
+            max-width: 70%;
+            word-wrap: break-word;
+            align-self: flex-start;
+        }
+
+        .bot-message {
+            background-color: #b2dfdb;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 10px 0;
+            max-width: 70%;
+            word-wrap: break-word;
+            align-self: flex-end;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Chatbot Example</h1>
+<div id="google_translate_element"></div>
+
+<form id="chatForm">
+    <label for="userMessage">Your message:</label>
+    <input type="text" id="userMessage" required>
+    <button type="button" id="sendButton" onclick="sendMessage()">Send</button>
+</form>
+
+<div id="chatDisplay"></div>
+<div id="loading">Loading...</div>
+
+<script>
+    async function sendMessage() {
+        const userMessage = document.getElementById('userMessage').value;
+        const chatDisplay = document.getElementById('chatDisplay');
+        const loadingElement = document.getElementById('loading');
+
+        // Display user's message instantly
+        displayMessage(userMessage, 'user');
+
+        try {
+            // Show loading indicator
+            loadingElement.style.display = 'block';
+
+            const response = await fetch('/sendMessage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userMessage }),
+            });
+
+            const data = await response.json();
+            
+            // Simulate a delay (replace this with your actual bot response)
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Display bot's response in the chat
+            displayMessage(data.message, 'bot');
+        } catch (error) {
+            console.error('Error sending message:', error);
+        } finally {
+            // Hide loading indicator
+            loadingElement.style.display = 'none';
+        }
+    }
+
+    function displayMessage(message, sender) {
+        const chatDisplay = document.getElementById('chatDisplay');
+        const messageElement = document.createElement('p');
+        
+        messageElement.textContent = message;
+
+        // Apply different styles for user and bot messages
+        if (sender === 'user') {
+            messageElement.classList.add('user-message');
+        } else if (sender === 'bot') {
+            messageElement.classList.add('bot-message');
+        }
+
+        chatDisplay.appendChild(messageElement);
+    }
+
+    function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

@@ -1,66 +1,83 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 body {
-    font-family: "Poppins",sans-serif;
+    font-family: "VT323", monospace;
     margin: 0;
     padding: 0;
-    background-color: #5c4cec;
-     min-height: 100vh;
+    background-image: url(./img/bg.png);
+    min-height: 100vh;
     background-size: cover;
     display: flex;
     justify-content: center;
-    align-items:center;
+    align-items: center;
 }
-
 
 .container {
     flex-direction: column;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f0f0f0; /* Light background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow */
     padding: 30px;
     text-align: center;
-    width:42%;
+    width: 42%;
     height: 50%;
 }
 
 h1 {
     font-size: 24px;
-    margin-bottom: 10px;
+    margin-bottom: 20px; /* Increased spacing */
+    color: #220e37; /* Blue */
 }
 
 .container p {
-    margin-bottom: 5px;
+    margin-bottom: 10px; /* Increased spacing */
     display: flex;
+    color: #333333; /* Dark text */
 }
 
-#loginimg{
+#loginimg {
     height: auto;
     display: block;
     margin: 0 auto -40px;
     width: 60%;
 }
-.labell{
+
+.labell {
+    font-size: 1.4rem;
     float: left;
     padding: 9px;
-    background: white;
+    background: #f0f0f0; /* White */
     border-radius: 2px;
+    color: #333333; /* Dark text */
 }
 
 input[type="email"],
 input[type="password"],
-input[type="text"] {
+input[type="text"],
+input[type="number"],
+select {
     width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Increased spacing */    
+}
+
+.flex{
+    display: flex;
+    flex: 1;
+    margin: auto;
+justify-content: center;}
+
+#f1{
+    position: absolute;
+    width: 19%;
 }
 
 .checkbox-container {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Increased spacing */
 }
 
 input[type="checkbox"] {
@@ -68,20 +85,21 @@ input[type="checkbox"] {
 }
 
 button {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 10px 20px;
+    font-family: "VT323", monospace;
+    background-color: #220e37; 
+    color: #ffffff; 
+    padding: 12px 24px; /* Increased padding */
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #449d44;
+    background-color: #220e37; /* Dark green on hover */
 }
 
 a {
-    color: #4CAF50;
+    color: #220e37; /* Light green */
     text-decoration: none;
 }
 
@@ -89,12 +107,7 @@ a:hover {
     text-decoration: underline;
 }
 
-
-
-
-@media only screen and (max-width: 600px) {
-    .container {
-        width: 80%;
-        
-    }
-  }
+#google_translate_element{
+    position: absolute;
+    bottom: 0;
+}

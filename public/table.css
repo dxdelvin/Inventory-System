@@ -1,0 +1,55 @@
+
+table {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.106);
+  width: 90%;
+  font-family: "Poppins";
+  font-weight: 400;
+  /* border-collapse: collapse; */
+  border: 1px solid rgba(255, 255, 255, 0.558);
+  margin-top: 20px;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+th, td {
+    border: none;
+  /* border: 1px solid #ddd; */
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px;
+  text-align: left;
+  /* border-radius: 20px; */
+
+}
+tr{
+    border-bottom: 1px solid rgb(193, 255, 193);
+    font-size: 14px;
+
+}
+
+th {
+    color: rgb(255, 255, 255);
+  /* background-color: #f2f2f2; */
+}
+
+/* Optional: Add some styling to the DataTables search bar */
+.dataTables_filter {
+  margin-top: 10px;
+}
+
+/* Optional: Add styling to DataTables pagination */
+.dataTables_paginate {
+  margin-top: 10px;
+}
+
+/* Optional: Add styling to DataTables entries per page dropdown */
+.dataTables_length {
+  margin-top: 10px;
+}
+
+tr img{
+    border-radius: 15px;
+}
+
+thead{border-bottom: 2px solid black !important;}
